@@ -1,0 +1,41 @@
+(ns social-centrality.graph)
+
+(defn set-distance [graph edge distance]
+  "Sets the distance between two vertices in the given graph"
+  (let [from (first edge)
+        to (last edge)]
+    (if (map? (get graph from))
+      (conj graph {from (conj (get graph from) {to distance})})
+      (conj graph {from {to distance}}))))
+
+(defn distance [graph edge]
+  (get-in graph edge (Integer/MAX_VALUE)))
+
+(defn paths [graph vertice]
+  (get graph vertice))
+
+(defn make [edges]
+  "Build a graph from a seq of edges pairs [source destination]"
+  (reduce (fn [graph edge]
+            (set-distance graph edge 1)) {} edges))
+
+
+(def test-graph (make [[:gustavo :pm] [:adolfo :mauricio] [:saroka :val] [:saroka :gustavo]]))
+
+(paths test-graph :saroka)
+(distance test-graph [:gustavo :saroka])
+
+(defn k-distance [graph k edge]
+  (+ (distance graph [(first edge) k]) (distance graph [k (last edge)])))
+
+(defn floyd-warshall [graph]
+  "Returns a graph with all-pairs shortest paths calculated"
+  (doseq [k (keys graph)]
+    (doseq [i (keys graph)]
+      (doseq [j (keys (paths graph i))]
+        (if ((k-distance graph k [i j]) < (distance graph [i j]))
+          (set-distance graph [i j] (k-distance graph k [i j]))
+             graph)))))
+
+(floyd-warshall test-graph)
+
