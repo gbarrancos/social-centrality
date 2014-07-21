@@ -1,4 +1,6 @@
-(ns social-centrality.graph)
+(ns social-centrality.graph
+  (:require [clojure.string :as string])
+  )
 
 (defn set-distance [graph edge distance]
   "Sets the distance between two vertices in the given graph"
@@ -49,3 +51,9 @@
             (k-step result-graph k-vertice))
           graph (keys graph)))
 
+(defn from-file [path]
+  "Reads a graph from file."
+  (make 
+   (map (fn [str-pair]
+          (map keyword (string/split str-pair #"(\s+)")))
+        (string/split-lines (slurp path)))))
