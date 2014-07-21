@@ -6,10 +6,12 @@
   (testing "Merging"
     (testing "when intermediate vertice"
       (testing "has shorter distance paths"
-        (is (= {:2 {:1 4 :3 2}} (k-merge {:1 {:3 -2}} {:2 {:1 4, :3 2}}))))
+        (is (= {:2 {:1 4 :3 2}}
+               (k-merge {:1 {:3 -2}} {:2 {:1 4, :3 2}}))))
       (testing "does not contain shorter distance paths"
         (is (= {:2 {:1 4 :3 2}} (k-merge {:1 {:3 100}} {:2 {:1 4 :3 2}}))))
-      
-      (testing "has a new path")
+      (testing "has a new path"
+        (is (= {:2 {:1 5 :3 2 :20 10}}
+               (k-merge {:1 {:3 -2 :20 5}} {:2 {:1 5 :3 2}}))))
     
 )))

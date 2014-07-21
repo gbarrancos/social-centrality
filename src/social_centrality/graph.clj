@@ -20,20 +20,20 @@
   (reduce (fn [graph edge]
             (set-distance graph edge 1)) {} edges))
 
-(defn k-merge [k-paths v-paths]
+(defn k-merge [k-paths paths]
+  "Builds a new map with shortest paths routes using 'k' as intermediate vertice and  merging them into 'paths'"
   (let [k-vertice (first (keys k-paths))
-        v-vertice (first (keys v-paths))
-        k-edges (get k-paths k-vertice)
-        v-edges (get v-paths v-vertice)
-        v-to-k-dist (get v-edges k-vertice)]
+        vertice (first (keys paths))
+        edges (get paths vertice)
+        v-to-k-dist (get edges k-vertice)]
     (reduce (fn [result k-edge] 
-              (let [v-dist (get v-edges (first k-edge) (Integer/MAX_VALUE))
+              (let [v-dist (get edges (first k-edge) (Integer/MAX_VALUE))
                     new-dist (+ (last k-edge) v-to-k-dist) ]
                 (if (< new-dist v-dist)
-                  (assoc-in result [v-vertice (first k-edge)] new-dist)
+                  (assoc-in result [vertice (first k-edge)] new-dist)
                   result 
                   ))
-              ) v-paths k-edges)))
+              ) paths (get k-paths k-vertice))))
 
 (defn k-step [graph k]
   "Calculates the shortest paths for the graph, using k as intermediate vertice"
