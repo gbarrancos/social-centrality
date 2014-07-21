@@ -5,8 +5,8 @@
   (let [from (first edge)
         to (last edge)]
     (if (map? (get graph from))
-      (conj graph {from (conj (get graph from) {to distance})})
-      (conj graph {from {to distance}}))))
+      (assoc-in graph [from to] distance)
+      (conj graph {from {from 0 to distance}}))))
 
 (defn paths [graph vertice]
   (get graph vertice))
@@ -39,7 +39,7 @@
   "Calculates the shortest paths for the graph, using k as intermediate vertice"
   (reduce (fn [graph v]
             (if (has-path? graph v k)
-              (conj graph (k-merge (paths k) (paths v))) ;wont work!
+              (conj graph (k-merge {k (paths graph k)} {v (paths graph v)}))
               graph))
           graph (keys graph)))
 
