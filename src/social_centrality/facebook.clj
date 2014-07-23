@@ -16,7 +16,7 @@
   (loop [resp (auth-request friends-uri user-token)
          result []]
     (let [friends (concat result (get resp "data"))
-          next-page (get-in ["paging" "next"] resp)]
+          next-page (get-in resp ["paging" "next"])]
       (if-not next-page
         friends
         (recur (json/read-str (:body (http/get next-page)))
