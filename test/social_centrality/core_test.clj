@@ -9,8 +9,8 @@
                                     [:a :c]
                                     [:b :c]
                                     [:c :a]])]
-      (is (= ([:a 0.5]
-              [:b 0.33]
-              [:c 0.33]) (closeness social-graph))))))
+      (is (= [[:c 0.3333333333333333]
+              [:b 0.3333333333333333]
+              [:a 0.5]] (closeness social-graph))))))
     
 
