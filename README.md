@@ -1,14 +1,26 @@
 # social-centrality
 
-A Clojure library designed to ... well, that part is up to you.
+An utility for calculating closeness centrality metric for social graphs
+
+## System Requirements
+
+- Java
+- Leiningen (installation instructions at: http://leiningen.org/#install)
 
 ## Usage
 
-FIXME
+With an edges file as input (output will be written to '/home/gustavo/edges_closeness') :
+    lein run /home/gustavo/edges
 
-## License
+With a facebook user token
+    lein run fbtoken:<facebook_user_token>
 
-Copyright © 2014 FIXME
+Obs: When using Facebook, the graph will be built based on the user friend list and the mutual friends for each friend
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+## Tests
+To run the suite:
+    lein test
+
+Tests are located at the 'test' folder
+
+
