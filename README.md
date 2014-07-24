@@ -13,7 +13,7 @@ With an edges file as input (output will be written to '/home/gustavo/edges_clos
 
     lein run /home/gustavo/edges
 
-With a facebook user token
+With a facebook user token (output will be written to 'fbtoken:<token>_closeness')
 
     lein run fbtoken:<facebook_user_token>
 

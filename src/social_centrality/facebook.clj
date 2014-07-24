@@ -15,6 +15,7 @@
 
 
 (defn my-friends [user-token]
+  "Obtains the Friends List for the user"
   (loop [resp (auth-get friends-uri user-token {})
          result []]
     (let [friends (concat result (get resp "data"))
@@ -32,6 +33,7 @@
 
 
 (defn mutual-friends-with [userid user-token]
+  "Retrieves a Mutual Friends List for an userid over the authenticated user perspective"
   (loop [pars {"fields" "context.fields(mutual_friends)"}
          result []]
     (let [resp (get-in (auth-get (user-uri userid) user-token pars)
@@ -43,3 +45,25 @@
         (recur (assoc pars "after" next-cursor)
                mut-friends)))))
   
+(defn friend-to-edges[user-id friend]
+  (let [uid (keyword user-id)
+        fid (keyword (get friend "id"))]
+    [[uid fid] [fid uid]]))
+
+(defn friends-to-edges[user-id friends]
+  (reduce (fn[res friend] (concat res (friend-to-edges user-id friend)))
+          [] friends))
+
+(defn edges-for [user-token]
+  "Returns friends edges for the given Facebook User"
+  (let [friends (my-friends user-token)
+        friends-edges (friends-to-edges :me friends)]
+    (reduce (fn [net-edges friend]
+              (let [fid (get friend "id")
+                    mut-friends (mutual-friends-with fid user-token)]
+                (concat net-edges (friends-to-edges fid mut-friends))))
+            friends-edges friends)))
+
+        
+                  
+

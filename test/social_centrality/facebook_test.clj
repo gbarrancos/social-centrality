@@ -45,3 +45,19 @@
               {"id" "69", "name" "Kensei Muguruma"}
               {"id" "444", "name" "Shuhei Hisagi"}] (vec (mutual-friends-with "500" "atoken")))))))
   
+
+
+(deftest friend-to-edges-test
+  (testing "Converting a friend connection map into a vector of edge pairs"
+    (is (= [[:18 :666]
+            [:666 :18]] (friend-to-edges :18 {"id" "666" "name" "Kerry King"})))))
+
+
+(deftest friends-to-edges-test
+  (testing "Converting a list of friend connection maps into a vector of edge pairs"
+    (is (= [[:1 :2]
+            [:2 :1]
+            [:1 :3]
+            [:3 :1]] (friends-to-edges :1 [{"id" "2" "name" "Marty Friedman"}
+                                           {"id" "3" "name" "Dimebag Darrell"}])))))
+                                      
