@@ -11,19 +11,25 @@
                           :c {:c 0 :d 1}}]
       (is (= expected-graph (make edges))))))
 
+
 (deftest k-merge-test
   (testing "Merging"
     (testing "when intermediate vertice"
       (testing "has shorter distance paths"
-        (is (= {:2 {:1 4 :3 2}}
-               (k-merge {:1 {:3 -2}} {:2 {:1 4, :3 2}}))))
+        (let [graph {:1 {:3 -2}
+                     :2 {:1 4 :3 2}}]
+          (is (= {:1 4 :3 2}
+                 (k-merge graph :2 :1)))))
       (testing "does not contain shorter distance paths"
-        (is (= {:2 {:1 4 :3 2}} (k-merge {:1 {:3 100}} {:2 {:1 4 :3 2}}))))
+        (let [graph {:1 {:3 100}
+                     :2 {:1 4 :3 2}}]
+          (is (= {:1 4 :3 2}
+                 (k-merge graph :2 :1)))))
       (testing "has a new path"
-        (is (= {:2 {:1 5 :3 2 :20 10}}
-               (k-merge {:1 {:3 -2 :20 5}} {:2 {:1 5 :3 2}}))))
-    
-)))
+        (let [graph {:1 {:3 -2 :20 5}
+                     :2 {:1 5 :3 2}}]
+          (is (= {:1 5 :3 2 :20 10}
+                 (k-merge graph :2 :1))))))))
 
 (deftest floyd-warshall-test
   (let [graph (make [[:a :b]
