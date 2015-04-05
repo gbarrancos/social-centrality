@@ -31,7 +31,7 @@
                  (assoc res vertice (* score k)))) {} v-score-map))
                         
 (defn score-graph [graph fraudsters]
-  (-> graph
+  (->> graph
       closeness
       (fraud fraudsters graph)))
 
