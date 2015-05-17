@@ -22,7 +22,7 @@
   (contains? (paths graph src) dst))
 
 (defn distance [graph v1 v2]
-  "Retrieves distance between two vertices. If there are not paths between v1 and v2 Integer/MAX_VALUE is returned"
+  "Retrieves distance between two vertices. If there are no paths between v1 and v2 Integer/MAX_VALUE is returned"
   (get (paths graph v1) v2 (Integer/MAX_VALUE)))
 
 (defn add-edges [edges graph]

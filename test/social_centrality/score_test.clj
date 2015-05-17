@@ -63,8 +63,6 @@
 
       (testing "when a vertice has connection with a fraudster its score will decrease proportionally to the distance"
         (is (= 0.5 (:d (fraud fraudsters social-graph v-score-map))))
-        (is (= 0.75 (:g (fraud fraudsters social-graph v-score-map))))
-        
-        ))))
+        (is (= 0.75 (:g (fraud fraudsters social-graph v-score-map))))))))
   
 
